@@ -45,4 +45,25 @@ describe('auth routes', () => {
         });
       });
   });
+
+
+  it('fails to login a user with bad password', async() => {
+    await User.create({ username: 'will', password: 'willWasHere' });
+    
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({ username: 'will', password: 'badPassword' })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'Invalid username/password',
+          status: 403
+        });
+      });
+  });
 });
+
+
+
+
+
+
